@@ -42,27 +42,16 @@ export default function Home() {
   }, [singleuserData]);
 
   const SubmitModal = () => {
-    // console.log(modalData);
-
-    // let arr = [...newUser];
-
     let final = [...newUser, modalData];
     // console.log("final >>> ", final);
 
-    setNewUser(final);
+    dispatch(addUser(final));
     // console.log("newUser >>> ", newUser);
-
-    // arr.push(modalData);
-    // console.log(arr);
-
-    // newUser.push(modalData);
-    dispatch(addUser(newUser));
-    console.log("newUser >>> ", newUser);
     setShowModal(false);
   };
 
   function EditUser(i) {
-    console.log("Edit index >>>> ", i);
+    // console.log("Edit index >>>> ", i);
     setEditIndex(i);
     // console.log(newUser[i]);
 
@@ -73,30 +62,42 @@ export default function Home() {
   }
 
   const SubmitEditModal = () => {
-    console.log("SubmitEditModal >>>", reduxSingleUser);
+    // console.log("SubmitEditModal >>>", reduxSingleUser);
 
-    let ind = editIndex;
+    // let ind = editIndex;
 
-    const editUserData = {
+    // const editUserData = {
+    //   name: reduxSingleUser.name,
+    //   email: reduxSingleUser.email,
+    //   phone: reduxSingleUser.phone,
+    // };
+
+    // let data = newUser;
+    // const updateArr = data.map((e, i) => (i === ind ? (e = editUserData) : e));
+
+    // dispatch(addUser(updateArr));
+
+    // const reduxData = useSelector((state) => state.users);
+    let index = allReduxData.indexOf(singleuserData);
+    let copyArr = [...allReduxData];
+
+    copyArr[index] = {
+      ...copyArr[index],
       name: reduxSingleUser.name,
       email: reduxSingleUser.email,
       phone: reduxSingleUser.phone,
     };
-
-    let data = newUser;
-    const updateArr = data.map((e, i) => (i === ind ? (e = editUserData) : e));
-
-    dispatch(addUser(updateArr));
+    dispatch(addUser(copyArr));
 
     setOpenEditModal(false);
     setShowModal(false);
   };
 
   function DeleteData(i) {
-    console.log("Delete index >>>> ", i);
+    // console.log("Delete index >>>> ", i);
 
     // let data = newUser;
-    // const result = data.filter((e, index) => {
+    // const result = allReduxData.filter((e, index) => {
     //   index != i;
     // });
     // console.log("result >> ", result);
@@ -117,57 +118,59 @@ export default function Home() {
       </button>
 
       {/* Table  */}
-      <div>
-        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                <th scope="col" className="px-6 py-3">
-                  Name
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Email
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  PHone
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {newUser.map((ele, i) => {
-                return (
-                  <tr
-                    key={i}
-                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                  >
-                    <td className="px-6 py-4">{ele.name}</td>
-                    <td className="px-6 py-4">{ele.email}</td>
-                    <td className="px-6 py-4">{ele.phone}</td>
+      {allReduxData.length > 0 ? (
+        <div>
+          <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                  <th scope="col" className="px-6 py-3">
+                    Name
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Email
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    PHone
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {newUser.map((ele, i) => {
+                  return (
+                    <tr
+                      key={i}
+                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                    >
+                      <td className="px-6 py-4">{ele.name}</td>
+                      <td className="px-6 py-4">{ele.email}</td>
+                      <td className="px-6 py-4">{ele.phone}</td>
 
-                    <td className="px-6 py-4 ">
-                      <button
-                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                        onClick={() => EditUser(i)}
-                      >
-                        Edit
-                      </button>
-                      <button
-                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-2"
-                        onClick={() => DeleteData(i)}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                      <td className="px-6 py-4 ">
+                        <button
+                          className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                          onClick={() => EditUser(i)}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-2"
+                          onClick={() => DeleteData(i)}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      ) : null}
       {/* Modal  */}
       <div>
         {showModal ? (

@@ -7,12 +7,12 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     addUser: (state, action) => {
-      // console.log("action.payload >>> ", action.payload);
+      // console.log("action.payload add user >>> ", action.payload);
       state = action.payload;
       return state;
     },
     deleteUser: (state, action) => {
-      console.log("action.payload >>> ", action.payload);
+      // console.log("action.payload >>> ", action.payload);
       let arr = state;
       arr.splice(action.payload, 1);
       state = arr;
